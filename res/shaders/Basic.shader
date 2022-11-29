@@ -43,7 +43,7 @@ struct Material
 	float shine;
 };
 
-struct Light
+struct Light //Regular Lighting
 {
 	vec3 position;
 	vec3 ambient;
@@ -55,24 +55,26 @@ struct Light
 	float attQuad;
 };
 
-struct DirLight
+/*
+struct DirLight // Directional Light "Sunlight". It directly adds to the "Phong" lighting in the original
 {
 	vec3 direction;
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
-};
+};*/
 
 uniform Material material;
 uniform Light light;
-uniform DirLight dirLight;
+//uniform DirLight dirLight;
+
 uniform vec3 boxColor;
 uniform vec3 luminosity;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 
-
-vec3 CalculateDirLight(DirLight sunlight, vec3 normal, vec3 viewDir)
+/*
+vec3 CalculateDirLight(DirLight sunlight, vec3 normal, vec3 viewDir) // Calculates the effect of the "Sunlight" via Phong Lighting.
 {
 	vec3 lightDir = normalize(-sunlight.direction);
 	float diff = max(dot(normal, lightDir), 0.0f);
@@ -84,7 +86,7 @@ vec3 CalculateDirLight(DirLight sunlight, vec3 normal, vec3 viewDir)
 	vec3 specular = sunlight.specular * spec * texture(material.specular, Tex).rgb;
 
 	return (ambience + diffuse + specular);
-}
+}*/
 
 
 void main()
@@ -94,22 +96,19 @@ void main()
 
 	//ambient
 	vec3 ambience = light.ambient * luminosity * texture(material.diffuse, Tex).rgb; //combines the light's ambience and the material's texture as an "ambience"
-	ambience *= attenuation;
 
 	//diffuse
 	vec3 lightDir = normalize(lightPos - FragPos); //direction vector of the light
 	float diff = max(dot(Normal, lightDir), 0.0f); 
 	vec3 diffuse = light.diffuse * luminosity * diff * texture(material.diffuse, Tex).rgb;
-	diffuse *= attenuation;
 
 	//specular
 	vec3 viewDir = normalize(viewPos - FragPos);
 	vec3 reflectDir = reflect(-lightDir, Normal);
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0f), material.shine);
 	vec3 specular = light.specular * luminosity * spec * texture(material.specular, Tex).rgb;
-	specular *= attenuation;
 
 	//phong!!!
-	vec3 phong = (ambience + diffuse + specular) * boxColor;
-	FragColor = vec4(phong + CalculateDirLight(dirLight, Normal, viewDir), 1.0f);
+	vec3 phong = (attenuation * (ambience + diffuse + specular)) * boxColor;
+	FragColor = vec4(phong, 1.0f); //You can add "CalculateDirLight" directly to "Phong" to include "Sunlight" alongside the regular lighting
 }

@@ -26,17 +26,21 @@ int width = 500;
 int height = 1000;
 
 float color[3] = { 1.0f, 1.0f, 1.0f };
-float background[3] = { 0.0f, 0.0f, 0.0f };
+float background[3] = { 0.7f, 0.3f, 0.1f };
 
-
+// The threshold for how much the camera can see
+float nearPlane = 0.1f;
+float farPlane = 100.0f;
 float angle = 0.0f; 
+
+
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 glm::mat4 i4 = glm::mat4(1.0f); //The identity matrix
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f); //The Normal of the camera
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -85,6 +89,11 @@ static ShaderProgramSource ParseShader(const std::string& filepath)
 }
 
 
+float SDFboxes(glm::vec3 p)
+{
+	return 0.0;
+}
+
 int main()
 {
 	//---------------INITIALIZING OPENGL 3.3---------------//
@@ -111,6 +120,7 @@ int main()
 		std::cout << "You are not GLAD :(" << std::endl;
 		return -1;
 	}
+
 
 	float vertices[] = {
 		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
@@ -226,7 +236,7 @@ int main()
 
 		//rendering
 		glClearColor(background[0], background[1], background[2], 1.0f); //1.0f, 0.7f, 0.7f for pink 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //color and z buffer
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); //color and z buffer
 
 		//imgui stuff
 		ImGui_ImplOpenGL3_NewFrame();
@@ -235,34 +245,36 @@ int main()
 
 		//view and projection
 		glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1800.0f / 900.0f, 0.1f, 100.0f);
+		glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1800.0f / 900.0f, nearPlane, farPlane);
 
 		//draw
 		shaderProgram.Bind();
 		crate.Bind(0);
 		frame.Bind(1);
 
-		shaderProgram.SetUniform3f("boxColor", 1.0f, 1.0f, 1.0f); //1.0f, 0.5f, 0.3f for the orange color! :D //0.5f, 1.0f, 1.0f for teal
+		shaderProgram.SetUniform3f("boxColor", 0.7f, 0.7f, 0.7f); //1.0f, 0.5f, 0.3f for the orange color! :D //0.5f, 1.0f, 1.0f for teal
 		shaderProgram.SetUniform3f("luminosity", color[0], color[1], color[2]);
 		shaderProgram.SetUniform3f("lightPos", lightCube.x, lightCube.y, lightCube.z);
 		shaderProgram.SetUniform3f("viewPos", cameraPos.x, cameraPos.y, cameraPos.z);
 
-		shaderProgram.SetUniform3f("dirLight.direction", 1.0f, -1.0f, 0.0f);
-		shaderProgram.SetUniform3f("dirLight.ambient", 0.1f, 0.0f, 0.1f);
-		shaderProgram.SetUniform3f("dirLight.diffuse", 0.1f, 0.0f, 0.2f);
-		shaderProgram.SetUniform3f("dirLight.specular", 0.2f, 0.0f, 0.6f);
+		// Directional Light "Sunlight"
+		//shaderProgram.SetUniform3f("dirLight.direction", 1.0f, -1.0f, 0.0f);
+		//shaderProgram.SetUniform3f("dirLight.ambient", 0.3f, 0.3f, 0.3f); //"glow"
+		//shaderProgram.SetUniform3f("dirLight.diffuse", 0.6f, 0.6f, 0.6f); //shade
+		//shaderProgram.SetUniform3f("dirLight.specular", 1.0f, 1.0f, 1.0f); //shine
 
-		shaderProgram.SetUniform1i("material.diffuse", 0);
-		shaderProgram.SetUniform1i("material.specular", 1);
-		shaderProgram.SetUniform1f("material.shine", 32.0f); //Higher more focused, Lower more dispersed.
+		shaderProgram.SetUniform1i("material.diffuse", 0); // Index of texture (0 - Crate, 1 - Frame)
+		shaderProgram.SetUniform1i("material.specular", 0); // Index of texture (0 - Crate, 1 - Frame)
+		shaderProgram.SetUniform1f("material.shine", 100.0); // Higher more focused, Lower more dispersed. The number is represented by "alpha" in the equation.
 
-		shaderProgram.SetUniform3f("light.ambient", 0.3f, 0.3f, 0.3f);
-		shaderProgram.SetUniform3f("light.diffuse", 0.5f, 0.5f, 0.5f);
-		shaderProgram.SetUniform3f("light.specular", 2.0f, 2.0f, 2.0f);
+		shaderProgram.SetUniform3f("light.ambient", 0.6f, 0.6f, 0.6f);
+		shaderProgram.SetUniform3f("light.diffuse", 0.8f, 0.8f, 0.8f);
+		shaderProgram.SetUniform3f("light.specular", 1.0f, 1.0f, 1.0f);
 
-		shaderProgram.SetUniform1f("light.attConst", 1.0f); //The attentuation values relate with the inverse squareish law
-		shaderProgram.SetUniform1f("light.attLinear", 0.1f);
-		shaderProgram.SetUniform1f("light.attQuad", 0.032f);
+		// The attenuation is like the inverse square law.
+		shaderProgram.SetUniform1f("light.attConst", 1.0f); // Keep at 1.0
+		shaderProgram.SetUniform1f("light.attLinear", 0.05f); //
+		shaderProgram.SetUniform1f("light.attQuad", 0.032f); //
 
 		for (unsigned int i = 0; i < (sizeof(moreCubes)) / sizeof(moreCubes[0]); i++)
 		{
@@ -304,7 +316,7 @@ int main()
 
 
 		ImGui::Begin("horseshoe crab");
-		ImGui::Text("Eat my ass");
+		ImGui::Text("Hi there!!!");
 		ImGui::Checkbox("Draw Boxes", &drawTriangle);
 		ImGui::ColorEdit4("Color", color);
 		ImGui::ColorEdit4("Background", background);

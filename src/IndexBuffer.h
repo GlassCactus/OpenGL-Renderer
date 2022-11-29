@@ -3,7 +3,7 @@
 class IndexBuffer
 {
 private:
-	unsigned int m_IndexBufferID;
+	unsigned int m_IndexBufferID; //The reference
 
 public:
 	IndexBuffer(const void* data, unsigned int count);
