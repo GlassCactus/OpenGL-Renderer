@@ -1,13 +1,2 @@
-﻿  Source.cpp
-C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(232,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(304,38): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(305,24): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
+﻿  Texture.cpp
   Test1.vcxproj -> C:\Users\aznbo\Desktop\GFX stuff\Test1\x64\Debug\Test1.exe

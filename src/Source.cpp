@@ -89,9 +89,9 @@ static ShaderProgramSource ParseShader(const std::string& filepath)
 }
 
 
-float SDFboxes(glm::vec3 p)
-{
-	return 0.0;
+float SDFsphere(glm::vec3 p, float radius, glm::vec3 move)
+{	
+	return glm::length((p)-move) - radius;
 }
 
 int main()
@@ -170,10 +170,10 @@ int main()
 							   2, 3, 0 };
 
 	glm::vec3 moreCubes[] = {
-		glm::vec3(0.0f, 0.0f, -3.0f),
+		glm::vec3( 0.0f,  0.0f, -3.0f),
 		glm::vec3(-2.5f,  0.0f, -5.0f),
-		glm::vec3(1.5f, -1.0f, -7.0f),
-		glm::vec3(2.0f,  2.5f, -2.0f),
+		glm::vec3( 1.5f, -1.0f, -7.0f),
+		glm::vec3( 2.0f,  2.5f, -2.0f),
 		glm::vec3(-3.5f, -3.5f, -0.5f),
 	};
 
@@ -275,6 +275,9 @@ int main()
 		shaderProgram.SetUniform1f("light.attConst", 1.0f); // Keep at 1.0
 		shaderProgram.SetUniform1f("light.attLinear", 0.05f); //
 		shaderProgram.SetUniform1f("light.attQuad", 0.032f); //
+
+		//glEnable(GL_FRAMEBUFFER_SRGB);
+
 
 		for (unsigned int i = 0; i < (sizeof(moreCubes)) / sizeof(moreCubes[0]); i++)
 		{

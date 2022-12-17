@@ -35,6 +35,8 @@ in vec3 FragPos;
 in vec3 Normal;
 in vec2 Tex;
 
+const int MaxRaymarch = 255;
+
 struct Material
 {
 	sampler2D diffuse;
@@ -89,10 +91,12 @@ vec3 CalculateDirLight(DirLight sunlight, vec3 normal, vec3 viewDir) // Calculat
 }*/
 
 
+
 void main()
 {
-	float distance = length(light.position - FragPos);
+	float distance = length(light.position - FragPos); //Try to calculate this using SDF later lol.
 	float attenuation = 1 / (light.attConst + (light.attLinear * distance) + (light.attQuad * distance * distance));
+	float gamma = 2.2;
 
 	//ambient
 	vec3 ambience = light.ambient * luminosity * texture(material.diffuse, Tex).rgb; //combines the light's ambience and the material's texture as an "ambience"
@@ -105,8 +109,10 @@ void main()
 	//specular
 	vec3 viewDir = normalize(viewPos - FragPos);
 	vec3 reflectDir = reflect(-lightDir, Normal);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0f), material.shine);
+	vec3 halfwayDir = normalize(viewDir + reflectDir); //Blinn-Phong's application of the halfwayDir vector
+	float spec = pow(max(dot(viewDir, halfwayDir), 0.0f), material.shine);
 	vec3 specular = light.specular * luminosity * spec * texture(material.specular, Tex).rgb;
+
 
 	//phong!!!
 	vec3 phong = (attenuation * (ambience + diffuse + specular)) * boxColor;
