@@ -145,7 +145,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\glad\src\glad.c" />
     <ClCompile Include="src\IndexBuffer.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Source.cpp" />
     <ClCompile Include="src\Texture.cpp" />
@@ -164,7 +163,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\imgui\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="src\IndexBuffer.h" />
-    <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\vendor\glm\common.hpp" />
@@ -426,6 +424,7 @@
     <ClInclude Include="src\VertexBufferLayout.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="imgui.ini" />
     <None Include="res\shaders\Basic.shader" />
     <None Include="res\shaders\Lamp.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />

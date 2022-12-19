@@ -1,12 +1,14 @@
 #pragma once
 
-#include "Renderer.h"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
 
 class Texture
 {
 private:
 	unsigned int m_TextureID;
-	std::string m_FilePath;
+	std::string m_FilePath; // address/file path of the texture
 	unsigned char* m_Data;
 	int m_Width, m_Height, m_nrChannels;
 public:

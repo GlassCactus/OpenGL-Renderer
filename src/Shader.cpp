@@ -1,7 +1,4 @@
-#include <iostream>
-#include <string>
 #include "Shader.h"
-
 
 Shader::Shader(const std::string& VertexSource, const std::string& FragmentSource)
 {
@@ -74,9 +71,7 @@ int Shader::GetUniformLocation(const std::string& name)
 {
 	int location = glGetUniformLocation(m_ShaderID, name.c_str());
 	if (location == -1)
-	{
 		std::cout << "WARNING: Uniform " << name << " doesn't exist :(" << std::endl;
-	}
 
 	return location;
 }
@@ -88,14 +83,10 @@ void Shader::ErrorHandling(unsigned int shader, int count) //Checks for shader c
 	std::string shaderType;
 
 	if (count == 0)
-	{
 		shaderType.append("Vertex");
-	}
 
 	else
-	{
 		shaderType.append("Fragment");
-	}
 
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
