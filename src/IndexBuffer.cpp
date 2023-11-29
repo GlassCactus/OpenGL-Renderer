@@ -1,23 +1,3 @@
-#include "IndexBuffer.h"
-
-IndexBuffer::IndexBuffer(const void* data, unsigned int count)
-{
-	glGenBuffers(1, &m_IndexBufferID);// Generates buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, count, data, GL_STATIC_DRAW);
-}
-
-IndexBuffer::~IndexBuffer()
-{
-	glDeleteBuffers(1, &m_IndexBufferID);
-}
-
-void IndexBuffer::Bind() const
-{
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBufferID);
-}
-
-void IndexBuffer::Unbind() const
-{
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:e329e267f01ebdf92386fc75096ce4a107d24e41162332df6a8650fd9ba0721d
+size 541

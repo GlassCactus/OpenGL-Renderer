@@ -23,5 +23,5 @@ uniform vec4 luminosity;
 
 void main()
 {
-	FragColor = luminosity;
+	FragColor.rgb = pow(luminosity.rgb, vec3(1.0/2.2));
 }

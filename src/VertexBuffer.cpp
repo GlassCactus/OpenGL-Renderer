@@ -1,26 +1,3 @@
-#include "VertexBuffer.h"
-
-VertexBuffer::VertexBuffer(const void* data, unsigned int size)
-{
-	glGenBuffers(1, &m_VertexBufferID); // Generates buffer
-	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID); //We're selecting the "layer" to "draw" on like in PS. This is what binding means.
-	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW); //Copies all the data onto the buffers
-}
-
-
-VertexBuffer::~VertexBuffer()
-{
-	glDeleteBuffers(1, &m_VertexBufferID);
-}
-
-
-void VertexBuffer::Bind() const
-{
-	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferID);
-}
-
-
-void VertexBuffer::Unbind() const
-{
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6fe6e7dbe5734574c115a9876fded3f3dc32777482053000115d46eebba1fdec
+size 647
