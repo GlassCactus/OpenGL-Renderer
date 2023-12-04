@@ -16,6 +16,9 @@ I started this project to teach myself the graphics pipeline and to learn about 
 
 # Displays
 
+![Pearl and Jade](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/c5077b64-a24c-47fd-9c98-328667301c71)
+
+
 ![3 Lights with Proper GAMMA](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/6ee4077d-c61d-429e-80b3-538b16e6c566)
 
 
