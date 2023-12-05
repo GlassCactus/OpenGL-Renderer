@@ -84,6 +84,10 @@ uniform PointLight pointlight[NR_POINT_LIGHTS];
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 
+uniform bool Blinn;
+uniform bool ModifiedSpecNorm;
+uniform bool SpecNorm;
+
 
 vec3 DirectLight(DirLight light, vec3 viewPos)
 {
@@ -120,10 +124,30 @@ vec3 PointLights(PointLight light, vec3 FragPos)
 
 	//specular with normalization constant
 	vec3 viewDir = normalize(viewPos - FragPos);
-	vec3 reflectDir = reflect(-lightDir, Normal);
-	vec3 halfwayDir = normalize(viewDir + lightDir); //Blinn-Phong's halfwayDir vector
-	float spec = max(dot(Normal, halfwayDir), 0.0f);
-	spec = pow(spec, box.alpha) * ((box.alpha + 2.0) / (4.0 * PI * (2.0 - exp(-box.alpha / 2.0))));
+	float spec;
+
+	if (Blinn)
+	{
+		vec3 halfwayDir = normalize(viewDir + lightDir); //Blinn-Phong's halfwayDir vector
+		spec = max(dot(Normal, halfwayDir), 0.0f);
+	}
+
+	else
+	{
+		vec3 reflectDir = reflect(-lightDir, Normal);
+		spec = max(dot(viewDir, reflectDir), 0.0f);
+	}
+
+	float specNormalization = 1.0f;
+
+	if (ModifiedSpecNorm)
+		specNormalization = (box.alpha + 2.0) / (4.0 * PI * (2.0 - exp(-box.alpha / 2.0)));
+
+	if (SpecNorm)
+		specNormalization = (box.alpha + 1.0) / (2.0 * PI);
+
+
+	spec = pow(spec, box.alpha) * specNormalization;
 	vec3 specular = spec * (light.spec*0.25) * box.specCol;//texture(material.specular, Tex).rgb;
 
 	//Blinn-Phong!!!
@@ -132,6 +156,7 @@ vec3 PointLights(PointLight light, vec3 FragPos)
 
 void main()
 {
+	box;
 	material;
 	vec3 phong = vec3(0.0, 0.0, 0.0);
 	
@@ -140,6 +165,7 @@ void main()
 		phong += (PointLights(pointlight[i], FragPos));
 	}
 	//phong = pow(DirectLight(dirlight, FragPos).rgb, vec3(1.0/GAMMA));
+
 	
 	FragColor.rgb = pow(phong.rgb, vec3(1.0 / GAMMA));
 }

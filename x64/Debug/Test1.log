@@ -1,10 +1,4 @@
 ﻿  Source.cpp
-C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(29,49): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(35,49): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(315,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(input.obj)' or at 'C:\Users\aznbo\Desktop\GFX stuff\Test1\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'C:\Users\aznbo\Desktop\GFX stuff\Test1\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(window.obj)' or at 'C:\Users\aznbo\Desktop\GFX stuff\Test1\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_joystick.obj)' or at 'C:\Users\aznbo\Desktop\GFX stuff\Test1\x64\Debug\glfw3.pdb'; linking object as if no debug info
-glfw3.lib(win32_window.obj) : warning LNK4099: PDB 'glfw3.pdb' was not found with 'glfw3.lib(win32_window.obj)' or at 'C:\Users\aznbo\Desktop\GFX stuff\Test1\x64\Debug\glfw3.pdb'; linking object as if no debug info
+C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(34,49): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(326,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   Test1.vcxproj -> C:\Users\aznbo\Desktop\GFX stuff\Test1\x64\Debug\Test1.exe
