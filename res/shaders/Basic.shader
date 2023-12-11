@@ -88,37 +88,18 @@ uniform bool ModifiedSpecNorm;
 uniform bool SpecNorm;
 
 
-vec3 DirectLight(DirLight light, vec3 viewPos)
-{
-	vec3 ambience = light.ambient * box.ambientCol;
-
-	vec3 lightDir = normalize(light.lightDir);
-	float diff = max(dot(Normal, lightDir), 0.0f);
-	vec3 diffuse = diff * light.diff * box.diffCol;// texture(material.diffuse, Tex).rgb;
-
-	vec3 viewDir = normalize(viewPos - FragPos);
-	vec3 reflectDir = reflect(-lightDir, Normal);
-	vec3 halfwayDir = normalize(viewDir + lightDir); //Blinn-Phong's halfwayDir vector
-	float spec = max(dot(Normal, halfwayDir), 0.0f);
-	spec = pow(spec, box.alpha) * ((box.alpha + 2.0) / (4.0 * PI * (2.0 - exp(-box.alpha / 2.0))));
-	vec3 specular = spec * light.spec * box.specCol;//texture(material.specular, Tex).rgb;
-
-	return (ambience + diffuse + specular);
-}
-
-
 vec3 PointLights(PointLight light, vec3 FragPos)
 {
 	float distance = length(light.position - FragPos); //Try to calculate this using SDF later lol.
 	float attenuation = 1.0f / (attConst + (attLinear * distance) + (attQuad * (distance * distance)));
 
 	//ambient
-	vec3 ambience = box.ambientCol;// texture(material.diffuse, Tex).rgb;
+	vec3 ambience = light.ambient * texture(material.diffuse, Tex).rgb;
 
 	//diffuse
 	vec3 lightDir = normalize(light.position - FragPos);
 	float diff = max(dot(Normal, lightDir), 0.0f);
-	vec3 diffuse = light.diff * diff * box.diffCol;// texture(material.diffuse, Tex).rgb;
+	vec3 diffuse = light.diff * diff * texture(material.diffuse, Tex).rgb;
 
 
 	//specular with normalization constant
@@ -147,11 +128,12 @@ vec3 PointLights(PointLight light, vec3 FragPos)
 
 
 	spec = pow(spec, box.alpha) * specNormalization;
-	vec3 specular = spec * (light.spec) * box.specCol;//texture(material.specular, Tex).rgb;
+	vec3 specular = spec * (light.spec) * texture(material.specular, Tex).rgb;
 
 	//Blinn-Phong!!!
 	return (ambience + diffuse + specular) * attenuation;
 }
+
 
 void main()
 {
@@ -163,8 +145,6 @@ void main()
 	{
 		phong += (PointLights(pointlight[i], FragPos));
 	}
-	//phong = pow(DirectLight(dirlight, FragPos).rgb, vec3(1.0/GAMMA));
 
-	
-	FragColor.rgb = pow(phong.rgb, vec3(1.0 / GAMMA));
+	FragColor.rgb = pow((phong.rgb), vec3(1.0 / GAMMA));
 }

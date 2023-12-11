@@ -1256,6 +1256,5 @@
     <None Include="res\shaders\Lamp.shader" />
     <None Include="imgui.ini" />
     <None Include="res\shaders\Floor.shader" />
-    <None Include="res\shaders\Grass.shader" />
   </ItemGroup>
 </Project>

@@ -90,16 +90,16 @@ uniform bool SpecNorm;
 
 vec3 PointLights(PointLight light, vec3 FragPos)
 {
-	float distance = length(light.position - FragPos);
+	float distance = length(light.position - FragPos); //Try to calculate this using SDF later lol.
 	float attenuation = 1.0f / (attConst + (attLinear * distance) + (attQuad * (distance * distance)));
 
 	//ambient
-	vec3 ambience = light.ambient;// *vec3(texture(material.diffuse, Tex));
+	vec3 ambience = light.ambient * texture(material.diffuse, Tex).rgb;
 
 	//diffuse
 	vec3 lightDir = normalize(light.position - FragPos);
 	float diff = max(dot(Normal, lightDir), 0.0f);
-	vec3 diffuse = light.diff * diff;// *vec3(texture(material.diffuse, Tex));
+	vec3 diffuse = light.diff * diff * texture(material.diffuse, Tex).rgb;
 
 
 	//specular with normalization constant
@@ -121,18 +121,19 @@ vec3 PointLights(PointLight light, vec3 FragPos)
 	float specNormalization = 1.0f;
 
 	if (ModifiedSpecNorm)
-		specNormalization = (material.alpha + 2.0) / (4.0 * PI * (2.0 - exp(-material.alpha / 2.0)));
+		specNormalization = (box.alpha + 2.0) / (4.0 * PI * (2.0 - exp(-box.alpha / 2.0)));
 
 	if (SpecNorm)
-		specNormalization = (material.alpha + 1.0) / (2.0 * PI);
+		specNormalization = (box.alpha + 1.0) / (2.0 * PI);
 
 
-	spec = pow(spec, material.alpha) * specNormalization;
-	vec3 specular = spec * (light.spec);
+	spec = pow(spec, box.alpha) * specNormalization;
+	vec3 specular = spec * (light.spec) * texture(material.specular, Tex).rgb;
 
 	//Blinn-Phong!!!
 	return (ambience + diffuse + specular) * attenuation;
 }
+
 
 void main()
 {
@@ -144,8 +145,7 @@ void main()
 	{
 		phong += (PointLights(pointlight[i], FragPos));
 	}
-	
-	//phong *= texture(material.diffuse, Tex);
+	phong *= texture(material.diffuse, Tex);
 
 	FragColor.rgb = pow(phong.rgb, vec3(1.0 / GAMMA));
 }
