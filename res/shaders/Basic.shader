@@ -34,7 +34,7 @@ in vec3 Normal;
 in vec2 Tex;
 
 const float attConst = 1.0f;
-const float attLinear = 0.035f;
+const float attLinear = 0.0035f;
 const float attQuad = 0.0005f;
 const float PI = 3.141596;
 
@@ -45,7 +45,7 @@ struct TexMaterial
 {
 	sampler2D diffuse;
 	sampler2D specular;
-	float shine;
+	float alpha;
 };
 
 struct Materials
@@ -81,7 +81,6 @@ uniform float GAMMA;
 
 uniform DirLight dirlight;
 uniform PointLight pointlight[NR_POINT_LIGHTS];
-uniform vec3 lightPos;
 uniform vec3 viewPos;
 
 uniform bool Blinn;
@@ -110,17 +109,17 @@ vec3 DirectLight(DirLight light, vec3 viewPos)
 
 vec3 PointLights(PointLight light, vec3 FragPos)
 {
-	vec3 apple = lightPos;
 	float distance = length(light.position - FragPos); //Try to calculate this using SDF later lol.
 	float attenuation = 1.0f / (attConst + (attLinear * distance) + (attQuad * (distance * distance)));
 
 	//ambient
-	vec3 ambience = light.ambient * box.ambientCol;// texture(material.diffuse, Tex).rgb;
+	vec3 ambience = box.ambientCol;// texture(material.diffuse, Tex).rgb;
 
 	//diffuse
 	vec3 lightDir = normalize(light.position - FragPos);
 	float diff = max(dot(Normal, lightDir), 0.0f);
 	vec3 diffuse = light.diff * diff * box.diffCol;// texture(material.diffuse, Tex).rgb;
+
 
 	//specular with normalization constant
 	vec3 viewDir = normalize(viewPos - FragPos);
@@ -148,7 +147,7 @@ vec3 PointLights(PointLight light, vec3 FragPos)
 
 
 	spec = pow(spec, box.alpha) * specNormalization;
-	vec3 specular = spec * (light.spec*0.25) * box.specCol;//texture(material.specular, Tex).rgb;
+	vec3 specular = spec * (light.spec) * box.specCol;//texture(material.specular, Tex).rgb;
 
 	//Blinn-Phong!!!
 	return (ambience + diffuse + specular) * attenuation;

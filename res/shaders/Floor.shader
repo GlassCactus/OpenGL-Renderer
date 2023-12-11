@@ -36,7 +36,10 @@ in vec2 Tex;
 const float attConst = 1.0f;
 const float attLinear = 0.0035f;
 const float attQuad = 0.0005f;
-const float GAMMA = 2.2f;
+const float PI = 3.141596;
+
+const int NR_POINT_LIGHTS = 3;
+
 
 struct TexMaterial
 {
@@ -45,33 +48,104 @@ struct TexMaterial
 	float alpha;
 };
 
-uniform TexMaterial material;
+struct Materials
+{
+	vec3 ambientCol;
+	vec3 diffCol;
+	vec3 specCol;
+	float alpha;
+};
 
-uniform vec3 lightCol;
-uniform vec3 lightPos;
+struct DirLight
+{
+	vec3 lightDir;
+
+	vec3 ambient;
+	vec3 diff;
+	vec3 spec;
+};
+
+struct PointLight
+{
+	vec3 position;
+
+	vec3 ambient;
+	vec3 diff;
+	vec3 spec;
+};
+
+uniform TexMaterial material;
+uniform Materials box;
+uniform sampler2D normalMap;
+uniform float GAMMA;
+
+uniform DirLight dirlight;
+uniform PointLight pointlight[NR_POINT_LIGHTS];
 uniform vec3 viewPos;
 
-void main()
+uniform bool Blinn;
+uniform bool ModifiedSpecNorm;
+uniform bool SpecNorm;
+
+
+vec3 PointLights(PointLight light, vec3 FragPos)
 {
-	float distance = length(lightPos - FragPos);
-	float attenuation = 1.0f / (attConst + (attLinear * distance) + (attQuad * distance * distance));
+	float distance = length(light.position - FragPos);
+	float attenuation = 1.0f / (attConst + (attLinear * distance) + (attQuad * (distance * distance)));
 
 	//ambient
-	vec3 ambience = vec3(texture(material.diffuse, Tex).rgb) * 0.7;
+	vec3 ambience = light.ambient;// *vec3(texture(material.diffuse, Tex));
 
 	//diffuse
-	vec3 lightDir = normalize(lightPos - FragPos);
+	vec3 lightDir = normalize(light.position - FragPos);
 	float diff = max(dot(Normal, lightDir), 0.0f);
-	vec3 diffuse = diff * vec3(texture(material.diffuse, Tex).rgb);
+	vec3 diffuse = light.diff * diff;// *vec3(texture(material.diffuse, Tex));
+
 
 	//specular with normalization constant
 	vec3 viewDir = normalize(viewPos - FragPos);
-	vec3 reflectDir = normalize(reflect(-lightDir, Normal));
-	vec3 halfwayDir = normalize(viewDir + reflectDir); //Blinn-Phong's halfwayDir vector
-	float spec = pow(max(dot(viewDir, halfwayDir), 0.0f), material.alpha) *((material.alpha + 2.0) / (4.0 * 3.141596 * (2.0 - exp(-material.alpha / 2.0))));
-	vec3 specular = spec * lightCol * texture(material.specular, Tex).rgb;
+	float spec;
 
-	//Blinn-Phong
-	vec3 phong = (ambience + diffuse + specular) * attenuation;
+	if (Blinn)
+	{
+		vec3 halfwayDir = normalize(viewDir + lightDir); //Blinn-Phong's halfwayDir vector
+		spec = max(dot(Normal, halfwayDir), 0.0f);
+	}
+
+	else
+	{
+		vec3 reflectDir = reflect(-lightDir, Normal);
+		spec = max(dot(viewDir, reflectDir), 0.0f);
+	}
+
+	float specNormalization = 1.0f;
+
+	if (ModifiedSpecNorm)
+		specNormalization = (material.alpha + 2.0) / (4.0 * PI * (2.0 - exp(-material.alpha / 2.0)));
+
+	if (SpecNorm)
+		specNormalization = (material.alpha + 1.0) / (2.0 * PI);
+
+
+	spec = pow(spec, material.alpha) * specNormalization;
+	vec3 specular = spec * (light.spec);
+
+	//Blinn-Phong!!!
+	return (ambience + diffuse + specular) * attenuation;
+}
+
+void main()
+{
+	box;
+	material;
+	vec3 phong = vec3(0.0, 0.0, 0.0);
+
+	for (int i = 0; i < NR_POINT_LIGHTS; i++)
+	{
+		phong += (PointLights(pointlight[i], FragPos));
+	}
+	
+	//phong *= texture(material.diffuse, Tex);
+
 	FragColor.rgb = pow(phong.rgb, vec3(1.0 / GAMMA));
 }

@@ -427,6 +427,7 @@
     <None Include="imgui.ini" />
     <None Include="res\shaders\Basic.shader" />
     <None Include="res\shaders\Floor.shader" />
+    <None Include="res\shaders\Grass.shader" />
     <None Include="res\shaders\Lamp.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />
