@@ -18,19 +18,18 @@ I started this project to teach myself the graphics pipeline and to learn about 
 
 ![Pearl and Jade](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/c5077b64-a24c-47fd-9c98-328667301c71)
 
+![Wood Texture 4](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/6455dbfd-79ac-439e-bddf-cbd752b91f1a)
+![Wood Texture 5](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/b0550f4c-e952-4456-a900-68babc7dcf37)
+![Wood Texture 6](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/4d3619b2-34ab-426b-8787-0cebe23f3cef)
 
-![3 Lights with Proper GAMMA](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/6ee4077d-c61d-429e-80b3-538b16e6c566)
-
-
-![Amogus Texture](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/f867db27-f648-421e-ad54-b40bc7eb3c38)
 
 
 ![Amogus White](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/017ede18-7db0-42c8-ba32-ea00c7176a8f)
-*Fixed a bug where the colored lights weren't combining properly. Here you can see the red, green and blue properly display the white color of the texture map*
+Fixed a bug where the colored lights weren't combining properly. Here you can see the red, green and blue properly display the white color of the texture map
 
 
 ![Blinn vs Phong RGB   BLACK](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/4f394f5b-fdf7-46d1-9742-2b9d665869aa)
-*Note how Blinn-Phong lighting make the lights elongate like in real life compared to the more circular light casts of the regular Phong Lighting. The scene on the is the same scene but with white lights and 0 diffuse*
+Note how Blinn-Phong lighting make the lights elongate like in real life compared to the more circular light casts of the regular Phong Lighting. The scene on the is the same scene but with white lights and 0 diffuse
 
 
 # Goals
