@@ -90,7 +90,7 @@ uniform bool SpecNorm;
 
 vec3 PointLights(PointLight light, vec3 FragPos)
 {
-	float distance = length(light.position - FragPos); //Try to calculate this using SDF later lol.
+	float distance = length(light.position - FragPos);
 	float attenuation = 1.0f / (attConst + (attLinear * distance) + (attQuad * (distance * distance)));
 
 	//ambient
@@ -145,7 +145,7 @@ void main()
 	{
 		phong += (PointLights(pointlight[i], FragPos));
 	}
-	phong *= texture(material.diffuse, Tex);
+	//phong *= texture(material.diffuse, Tex);
 
 	FragColor.rgb = pow(phong.rgb, vec3(1.0 / GAMMA));
 }
