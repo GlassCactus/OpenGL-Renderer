@@ -25,7 +25,7 @@ I started this project to teach myself the graphics pipeline and to learn about 
 <br /><br />
 
 # Blinn-Phong BRDF vs Phong BRDF
-Light tends to elongate alongside a surface when viewed at grazing angles. The Blinn-Phong BRDF depicts a more realistic lighting by emulating this elongation through a modified specular component.
+Light tends to elongate alongside a surface when viewed at grazing angles. The Blinn-Phong BRDF depicts a more realistic lighting by emulating this elongation through a modified specular component.<br /><br />
 ![Blinn vs Phong Wood](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/e2bb18f8-a3a0-4245-853e-7efe41bc77c0)<br />
 You can see the difference between both methods more clearly at increased alpha values. The regular Phong model cuts off the streak of light abruptly and casts a more circular reflection while the Blinn-Phong model makes the light casts streak downward from the user's POV. <br /><br />
 **Note:** In every depiction in this README, the light sources are coming from a singular point in the center of each light box. The boxes themselves are not the ones emitting light. They're just cute.
@@ -33,7 +33,7 @@ You can see the difference between both methods more clearly at increased alpha 
 
 # Specular Normalization
 I'll add more to this later, but for now screenshots and references for where I learned about this stuff are listed at the bottom of the README.<br /><br />
-**Tl:dr version:** By including a normalization constant in the specular component of the BRDF, we can modify how the intensity of the specular reflection scales with the angle. This lets the total output of light stay constant, but it would be inaccurate to say that energy is being conserved. This isn't a PBR method, but it's pretty damn good and cheap.
+**Tl:dr version:** By including a normalization constant in the specular component of the BRDF, we can modify how the intensity of the specular reflection scales with the angle. This lets the total output of light stay constant, but it would be inaccurate to say that energy is being conserved. This isn't a PBR method, but it's pretty damn good and cheap.<br /><br />
 ![Spec P norm 1 -](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/fff83fd8-b8c0-48b5-bdc9-250fc4a10a9c)
 ![Spec P norm 2 - Copy](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/a8132ca1-cfaa-417b-8d4e-190d6ceeaceb)
 ![Spec P norm 3 - Copy](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/8ede7975-1161-4461-8a42-c615c9d51123)
