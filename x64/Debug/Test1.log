@@ -1,4 +1,4 @@
 ﻿  Source.cpp
-C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(45,48): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(329,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(46,48): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\aznbo\Desktop\GFX stuff\Test1\src\Source.cpp(328,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   Test1.vcxproj -> C:\Users\aznbo\Desktop\GFX stuff\Test1\x64\Debug\Test1.exe
