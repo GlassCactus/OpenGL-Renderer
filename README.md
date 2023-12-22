@@ -17,6 +17,12 @@ I started this project to teach myself the graphics pipeline and to learn about 
 - [ ] Parallax Mapping
 - [ ] Cubemaps
 
+# Third Party Libraries
+- [GLFW](https://github.com/glfw/glfw): A multi-platform library for window and input.
+- [GLM](https://github.com/g-truc/glm): A header only mathematics software for graphics software 
+- [ImGUI](https://github.com/ocornut/imgui): It's the GUI
+- [stb_image](https://github.com/ocornut/imgui): Used for loading images
+
 # Displays
 ![Wood Texture 4](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/a9d1899a-a1d1-4f13-9e2f-dee27b0ed06b)
 ![Wood Texture 5](https://github.com/GlassCactus/OpenGL-Renderer/assets/86325057/64c66dc5-53d3-4b86-84be-1d5762257e7f)
